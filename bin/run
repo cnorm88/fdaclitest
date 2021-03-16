@@ -4,4 +4,4 @@ require_relative "../environment"
 
 puts "hi"
 
-# Cli.new.start
+Cli.new.start
