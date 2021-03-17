@@ -19,8 +19,7 @@ def menu
 
     if user_input == "C" || user_input == "c"
       puts "Here is the list of recalls"      
-      find_by_state
-      users_selection_two
+      find_by_static
       list_of_recalls
       users_selection
     else
@@ -52,7 +51,7 @@ end
 
 def recall_details(report)
   puts "\n"
-  puts "What would you like to know about this #{report.name} recall? Here are your options: Location, Description, Date, Quantity or Type C for more info & E to Exit"
+  puts "What would you like to know about this #{report.state} #{report.name} recall? Here are your options: Location, Description, Date, Quantity or Type C for more info & E to Exit"
     choice = gets.strip.capitalize
 
     case choice
@@ -82,39 +81,56 @@ def recall_details(report)
     choice = gets.strip.capitalize
 
     if choice == "List"
-       find_by_state
+       find_by_static
     else
       puts "Thank you"
     end
 end
 
 
-def find_by_state
+def find_by_static
 
     Reports.all.uniq.each.with_index(1) do |report|
         # binding.pry
       report = report.state
       puts "#{report}"
     end
+puts "what state?"
+    user_input = gets.strip
+    report = Api.find_by_state(user_input)
+    recall_details(report)
 end
 
-def users_selection_two
+# def users_selection_two(find_by_state)
+#     puts "which state would you like to select"
+#     find_by_state
+#     user_input = gets.strip.downcase
 
-  self.find_by_state.select do |user|
-    user_input = gets.strip.downcase
-    if user_input == user.name
-    puts "here"
-  end
-binding.pry
-  # puts "Enter the state of the report you'd like to know more about"
-  #   user_input = gets.strip.downcase
-  #   binding.pry
-  # user_input == report.state 
-  #     puts "Here is the report"
+
+# input = @prompt.select("Which character would you like to view?", characters.map{|character| character.name})
+#     character = Character.find_by_name(input)
+#     character_menu(character)
+
+
+
+
+
+#   find_by_state.select do |user|
+#     user_input = gets.strip.downcase
+#     if user_input == user.name
+#     puts "here"
+#     end
+#   end
+# binding.pry
+#   # puts "Enter the state of the report you'd like to know more about"
+#   #   user_input = gets.strip.downcase
+#   #   binding.pry
+#   # user_input == report.state 
+#   #     puts "Here is the report"
  
-  instance = Reports.all[]
-  recall_details_state(instance)
-end
+#   instance = Reports.all[]
+#   recall_details_state(instance)
+# end
 
 def recall_details_state(report)
   puts "\n"

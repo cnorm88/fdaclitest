@@ -14,6 +14,7 @@ class Reports
     @@all
   end
 
+  
   # def self.state
   #   @@state << state.all
   # end
