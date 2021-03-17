@@ -4,6 +4,7 @@ class Cli
     puts "Please enter your name:"
     name = gets.strip.capitalize
     puts "Welcome to the FDA recall information application #{name}"
+    # Api.get_states
     Api.get_report
     self.menu
   end
@@ -17,8 +18,9 @@ def menu
     user_input = gets.strip.downcase
 
     if user_input == "C" || user_input == "c"
-      puts "Here is the list of recalls"
-
+      puts "Here is the list of recalls"      
+      find_by_state
+      users_selection_two
       list_of_recalls
       users_selection
     else
@@ -35,6 +37,7 @@ def menu
       puts "#{index}. #{report}"
     end
   end
+
 
 def users_selection
   puts "Enter the number of the report you'd like to know more about"
@@ -85,12 +88,74 @@ def recall_details(report)
     end
 end
 
+
+def find_by_state
+
+    Reports.all.uniq.each.with_index(1) do |report|
+        # binding.pry
+      report = report.state
+      puts "#{report}"
+    end
+end
+
+def users_selection_two
+
+  self.find_by_state.select do |user|
+    user_input = gets.strip.downcase
+    if user_input == user.name
+    puts "here"
+  end
+binding.pry
+  # puts "Enter the state of the report you'd like to know more about"
+  #   user_input = gets.strip.downcase
+  #   binding.pry
+  # user_input == report.state 
+  #     puts "Here is the report"
+ 
+  instance = Reports.all[]
+  recall_details_state(instance)
+end
+
+def recall_details_state(report)
+  puts "\n"
+  puts "What would you like to know about this #{report.name} recall? Here are your options: Location, Description, Date, Quantity or Type C for more info & E to Exit"
+    choice = gets.strip.capitalize
+
+    case choice
+
+    when "Location"
+      puts "State: #{report.state} City: #{report.city}"
+        recall_details(report)
+    when "Description"
+      puts report.description
+      puts report.recall_reason
+        recall_details(report)
+    else
+      exit_or_continue
+    end
+end    
+
+#     users_selection_two
+#   end
+
+#   def users_selection_two
+#   puts "Enter the number of the report you'd like to know more about"
+#     index = gets.strip.to_i - 1
+#   until index.between?(0, Reports.all.length - 1)
+#     puts "Sorry invalid input. Choose a valid number"
+#     index = gets.strip.to_i - 1
+#   end
+#   instance = Reports.all[index]
+#   recall_details(instance)
+# end
+
 # def find_by_state
 #   puts "\n"
 #   puts "Type the 2 letter abbreviation for your state:"
 #     name = gets.strip.upcase
+# binding.pry
 
-#     Reports.all.each do |state_name|
+#     Reports.all.collect do |state_name|
 #       if state_name.state == "#{name}"
 #         puts "Your state has recall reports."
 #         break
